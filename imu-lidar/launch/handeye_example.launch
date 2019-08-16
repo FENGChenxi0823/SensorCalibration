@@ -1,0 +1,56 @@
+<!-- Author: Ran Tang -->
+<!-- Date: May 10, 2018 -->
+
+<launch>
+
+    <arg name="transformationPariFile" default="$(find imu-lidar)/data/ndt/transformationParis.yaml" />
+    <arg name="resultPath" default="$(find imu-lidar)/result" />
+    <arg name="useRviz" default="true"/>
+    <arg name="dataPercentage" default="1.0"/>
+<!--    <arg name="useRefinement" default="true" />
+    <arg name="useInitialGuess" default="false"/>-->
+    <!-- 1: dualQuaternionSolver -->
+<!--    <arg name="solverType" default="1" />-->
+
+    <arg name="roundCount" default="1" />
+
+    <arg name="hypothesesCount" default="256" />
+    <arg name="hypothesesSampleCount" default="10" />
+    <arg name="hypothesesMaxIters" default="256" />
+    <arg name="hypothesesPercentage" default="0.6" />
+
+    <arg name="ransacSampleCount" default="60" />
+    <arg name="ransacPrunedCount" default="64" />
+
+    <arg name="rotationThreshold" default="4.0" />
+    <arg name="translationThreshold" default="0.4" />
+
+
+    <node pkg="imu-lidar" type="handeye_example_node" name="handeye_example_node1" output="screen" >
+        <param name="transformationPariFile" type="str" value="$(arg transformationPariFile)" />
+        <param name="resultPath" type="str" value="$(arg resultPath)" />
+        <param name="dataPercentage" type="double" value="$(arg dataPercentage)" />
+<!--        <param name="useRefinement" type="bool" value="$(arg useRefinement)" />
+        <param name="solverType" type="int" value="$(arg solverType)" />
+        <param name="useInitialGuess" type="bool" value="$(arg useInitialGuess)" />-->
+
+        <param name="roundCount" type="int" value="$(arg roundCount)" />
+
+        <param name="hypothesesCount" type="int" value="$(arg hypothesesCount)" />
+        <param name="hypothesesSampleCount" type="int" value="$(arg hypothesesSampleCount)" />
+        <param name="hypothesesMaxIters" type="int" value="$(arg hypothesesMaxIters)" />
+        <param name="hypothesesPercentage" type="double" value="$(arg hypothesesPercentage)" />
+
+        <param name="ransacSampleCount" type="int" value="$(arg ransacSampleCount)" />
+        <param name="ransacPrunedCount" type="int" value="$(arg ransacPrunedCount)" />
+
+        <param name="rotationThreshold" type="double" value="$(arg rotationThreshold)" />
+        <param name="translationThreshold" type="double" value="$(arg translationThreshold)" />
+        <rosparam param="initialGuess"> [1.7, -1.4, -0.7, -0.01, -0.01, -0.005]</rosparam>
+    </node>
+
+<!--     <group if="$(arg useRviz)">
+        <node pkg="rviz" type="rviz" name="rviz" args="-d $(find sensor_calibration)/config/lidar_Imu.rviz"/>
+    </group> -->
+
+</launch>

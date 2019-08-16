@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+
+    <arg name="init_x" default ="0.0"/>
+    <arg name="init_y" default="0.0" />
+    <arg name="init_z" default="0.0" />
+    <arg name="init_roll" default="0.0" />
+    <arg name="init_pitch" default="0.0" />
+    <arg name="init_yaw" default="0.0" />
+    <arg name="tf_x" default="1.7" />
+    <arg name="tf_y" default="1.3" />
+    <arg name="tf_z" default="-0.6" />
+    <arg name="tf_roll" default="0.01" />
+    <arg name="tf_pitch" default="0.01" />
+    <arg name="tf_yaw" default="0.005" />
+    <arg name="topic_compensated_pointcloud" default="/compensated_pointcloud"/>
+    <arg name="topic_pointcloud" default="/qml/sensor/vlp16/right/PointCloud2"/>
+    <arg name="topic_transform" default="/tform"/>
+    <arg name="datapath" default="$(find imu-lidar)/data/ndt_tku" />
+
+<!-- 
+  <node pkg="velodyne_compensation" name="velodyne_compensation" type="velodyne_compensation_node" output="log">
+    <param name="topic_compensated_pointcloud" value="$(arg topic_compensated_pointcloud)" />
+    <param name="topic_pointcloud" value="$(arg topic_pointcloud)" />
+    <param name="topic_transform" value="$(arg topic_transform)" />
+    <param name="queue_size" value="100" />
+  </node>
+ -->
+
+  <node pkg="localization" type="localization_node" name="localization_node" output="log">
+  </node>
+
+  <node pkg="ndt_tku_mapping" name="ndt_tku_mapping_node" type="ndt_tku_mapping_node" output="screen">
+    <param name="init_x" value="$(arg init_x)" />
+    <param name="init_y" value="$(arg init_y)" />
+    <param name="init_z" value="$(arg init_z)" />
+    <param name="init_roll" value="$(arg init_roll)" />
+    <param name="init_pitch" value="$(arg init_pitch)" />
+    <param name="init_yaw" value="$(arg init_yaw)" />
+    <param name="tf_x" type="double" value="$(arg tf_x)" />
+    <param name="tf_y" type="double" value="$(arg tf_y)" />
+    <param name="tf_z" type="double" value="$(arg tf_z)" />
+    <param name="tf_roll" type="double" value="$(arg tf_roll)"/>
+    <param name="tf_pitch" type="double" value="$(arg tf_pitch)" />
+    <param name="tf_yaw" type="double" value="$(arg tf_yaw)"/>
+    <param name="topic_compensated_pointcloud" value="$(arg topic_pointcloud)" />
+    <param name="datapath" value="$(arg datapath)" />
+
+  </node>
+
+</launch>

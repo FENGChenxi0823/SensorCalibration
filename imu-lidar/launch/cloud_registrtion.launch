@@ -1,0 +1,31 @@
+<!-- Author: Ran Tang -->
+<!-- Date: June 07, 2018 -->
+
+<launch>
+
+    <arg name="resultPath" default="$(find imu-lidar)/result" />
+    <arg name="useRviz" default="true"/>
+
+    <!-- <arg name="imu_to_lidar1" default="[1.65441 1.22997 -5.4991 0.00810555 -0.00896183 -0.0172249]"/>
+    <arg name="imu_to_lidar2" default="[1.69435 -1.18031 -2.06763 0.011769 -0.00641879 0.0044906]"/> -->
+    <arg name="imu_to_lidar1" default="[1.65441 1.22997 0.0 0.00810555 -0.00896183 -0.0172249]"/>
+    <arg name="imu_to_lidar2" default="[1.69435 -1.18031 0.15 0.011769 -0.00641879 0.0044906]"/>
+
+    <arg name="lidar_topic1" default="/rr/front_left/velodyne_points"/>
+    <arg name="lidar_topic2" default="/rr/front_right/velodyne_points"/>
+
+    <node pkg="imu-lidar" type="cloud_registration_node" name="cloud_registrtion_node1" output="screen" >
+        <param name="resultPath" type="str" value="$(arg resultPath)" />
+
+        <param name="imu_to_lidar1" type="str" value="$(arg imu_to_lidar1)" />
+        <param name="imu_to_lidar2" type="str" value="$(arg imu_to_lidar2)" />
+        <param name="lidar_topic1" type="str" value="$(arg lidar_topic1)" />
+        <param name="lidar_topic2" type="str" value="$(arg lidar_topic2)" />
+
+    </node>
+
+    <group if="$(arg useRviz)">
+        <node pkg="rviz" type="rviz" name="rviz" args="-d $(find imu-lidar)/config/cloud_registration.rviz"/>
+    </group>
+
+</launch>

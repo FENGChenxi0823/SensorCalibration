@@ -1,0 +1,36 @@
+<package format="2">
+  <name>localization</name>
+  <version>0.0.0</version>
+  <description>The localization package</description>
+
+  <maintainer email="chen.xia@westwell-lab.com">chen</maintainer>
+
+  <license>TODO</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <build_depend>roscpp</build_depend>
+  <build_depend>rospy</build_depend>
+  <build_depend>std_msgs</build_depend>
+  <build_depend>sensor_msgs</build_depend>
+  <build_depend>message_filters</build_depend>
+  <build_depend>geometry_msgs</build_depend>
+  <build_depend>nav_msgs</build_depend>
+  <build_depend>tf</build_depend>
+  <build_depend>four_wheel_steering_msgs</build_depend>
+
+  <exec_depend>roscpp</exec_depend>
+  <exec_depend>rospy</exec_depend>
+  <exec_depend>std_msgs</exec_depend>
+  <exec_depend>sensor_msgs</exec_depend>
+  <exec_depend>message_filters</exec_depend>
+  <exec_depend>geometry_msgs</exec_depend>
+  <exec_depend>nav_msgs</exec_depend>
+  <exec_depend>tf</exec_depend>  
+  <exec_depend>four_wheel_steering_msgs</exec_depend>
+
+  <depend>proj</depend>
+  <depend>novatel_gps_driver</depend>
+  <depend>novatel_gps_msgs</depend>
+
+</package>

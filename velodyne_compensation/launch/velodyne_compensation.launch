@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+
+  <arg name="topic_compensated_pointcloud" default="/compensated_pointcloud"/>
+  <arg name="topic_pointcloud" default="/qml/sensor/vlp16/left/PointCloud2"/>
+  <arg name="topic_transform" default="/tform"/>
+
+  <node pkg="velodyne_compensation" name="velodyne_compensation" type="velodyne_compensation_node" output="screen">
+    <param name="topic_compensated_pointcloud" value="$(arg topic_compensated_pointcloud)" />
+    <param name="topic_pointcloud" value="$(arg topic_pointcloud)" />
+    <param name="topic_transform" value="$(arg topic_transform)" />
+    <param name="queue_size" value="100" />
+    <!-- <param name="transforms_from_csv" value="$(arg transforms_from_csv)"/> -->
+    <!-- rr1 left lidar to imu -->
+    <!-- <rosparam param="inital_guess">[1.73, 1.3125, -0.67, -0.02, -0.015, -0.02, 0.0]</rosparam> -->
+    <!-- rr1 right lidar to imu -->
+    <!-- <rosparam param="inital_guess">[1.73, -1.4125, -0.66, -0.01, -0.02, -0.0545, 0.0]</rosparam>; -->
+    <!-- rr2 left lidar to imu -->
+    <!-- <rosparam param="inital_guess">[1.7, 1.3, -0.6, 0.01, -0.02, -0.01, 0.0]</rosparam> -->
+    <!-- rr2 right lidar to imu -->
+    <!-- <rosparam param="translation"> [1.7786, -1.25246, -0.72577]</rosparam> -->
+    <!-- <rosparam param="rotation"> [0.999841, 0.0143144, -0.0105069, -0.00185238]</rosparam> -->
+
+  </node>
+
+
+  <node pkg="localization" type="localization_node" name="localization_node" output="log">
+  </node>
+  
+</launch>

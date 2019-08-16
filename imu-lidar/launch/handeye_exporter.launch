@@ -1,0 +1,104 @@
+<!-- Author: Ran Tang -->
+<!-- Date: May 10, 2018 -->
+
+<launch>
+    <arg name="mode" default="ndt" />
+    <arg name="ndt_data_path" default="$(find imu-lidar)/data/ndt" />
+
+    <arg name="odometryTopic" default="/gps_odometry" />
+    <arg name="gnssTopic" default="/nav/fix" />
+    <arg name="imuTopic" default="/imu/enu" />
+    <arg name="poseTopic" default="/pose" />
+    <arg name="useOdoemetryTopic" default="false" />
+
+    <arg name="lidarTopic1" default="/qml/sensor/vlp16/left/PointCloud2" />
+    <arg name="lidarTopic2" default="/qml/sensor/vlp16/right/PointCloud2" />
+    <arg name="lidarCount" default="1" />
+   
+    <arg name="min_scan_range"  default="10.0" />
+    <arg name="max_scan_range"  default="80.0" />
+    <arg name="min_add_scan_shift" default="1.5" />   
+    <arg name="voxel_leaf_size" default="2.0" />
+
+    <arg name="ndt_resolution" default="3.5" />
+    <arg name="fitness_tresh" default="10.0" />
+
+    <arg name="max_corresp_distance" default="1.0" />
+    <arg name="trans_epsilon" default="1e-6" />
+    <arg name="euc_fitness_epsilon" default="0.001" />
+    <arg name="max_iter" default="60" />
+
+<!--     <arg name="init_x" default ="0.0"/>
+    <arg name="init_y" default="0.0" />
+    <arg name="init_z" default="0.0" />
+    <arg name="init_roll" default="0.0" />
+    <arg name="init_pitch" default="0.0" />
+    <arg name="init_yaw" default="0.0" />
+    <arg name="tf_x" default="1.7" />
+    <arg name="tf_y" default="1.3" />
+    <arg name="tf_z" default="-0.6" />
+    <arg name="tf_roll" default="0.01" />
+    <arg name="tf_pitch" default="0.01" />
+    <arg name="tf_yaw" default="0.005" />
+    <arg name="ndt_tku_data_path" default="$(find imu-lidar)/data/ndt_tku" />
+    <arg name="topic_compensated_pointcloud" default="/compensated_pointcloud"/>
+    <arg name="topic_pointcloud" default="/qml/sensor/vlp16/left/PointCloud2"/>
+    <arg name="topic_transform" default="/tform"/> -->
+
+    <node pkg="imu-lidar" type="handeye_exporter_node" name="handeye_exporter_node1" output="screen" >
+<!--        <remap from="lidar_odometry" to="lidar_odometry">-->
+        <param name="dataPath" type="str" value="$(arg ndt_data_path)" />
+        <param name="mode" type="str" value="$(arg mode)" />
+        <param name="odometryTopic" type="str" value="$(arg odometryTopic)" />
+        <param name="gnssTopic" type="str" value="$(arg gnssTopic)" />
+        <param name="imuTopic" type="str" value="$(arg imuTopic)" />
+        <param name="poseTopic" type="str" value="$(arg poseTopic)" />
+        <param name="useOdoemetryTopic" type="bool" value="$(arg useOdoemetryTopic)" />
+
+        <param name="lidarTopic1" type="str" value="$(arg lidarTopic2)" />
+        <param name="lidarTopic2" type="str" value="$(arg lidarTopic2)" />
+        <param name="lidarCount" type="int" value="$(arg lidarCount)" />
+        <param name="min_scan_range" type="double" value="$(arg min_scan_range)" />
+        <param name="max_scan_range" type="double" value="$(arg max_scan_range)" />
+        <param name="min_add_scan_shift" type="double" value="$(arg min_add_scan_shift)" />
+        <param name="voxel_leaf_size" type="double" value="$(arg voxel_leaf_size)" />
+        <param name="ndt_resolution" type="double" value="$(arg ndt_resolution)" />
+        <param name="fitness_tresh" type="double" value="$(arg fitness_tresh)" />
+
+        <param name="max_corresp_distance" type="double" value="$(arg max_corresp_distance)" />
+        <param name="trans_epsilon" type="double" value="$(arg trans_epsilon)" />
+        <param name="euc_fitness_epsilon" type="double" value="$(arg euc_fitness_epsilon)" />
+        <param name="max_iter" type="double" value="$(arg max_iter)" />
+
+        <!-- <rosparam param="initialTransGuess"> [1.53, 1.3125, -0.67, 0.0, -0.017, -0.02]</rosparam> -->
+        <rosparam param="initialTransGuess"> [1.60, -1.3125, -0.66, 0, 0, -0.02]</rosparam>
+    </node>
+
+
+<!--     <node pkg="ndt_tku_mapping" name="ndt_tku_mapping_node" type="ndt_tku_mapping_node" output="screen">
+        <param name="init_x" value="$(arg init_x)" />
+        <param name="init_y" value="$(arg init_y)" />
+        <param name="init_z" value="$(arg init_z)" />
+        <param name="init_roll" value="$(arg init_roll)" />
+        <param name="init_pitch" value="$(arg init_pitch)" />
+        <param name="init_yaw" value="$(arg init_yaw)" />
+        <param name="tf_x" type="double" value="$(arg tf_x)" />
+        <param name="tf_y" type="double" value="$(arg tf_y)" />
+        <param name="tf_z" type="double" value="$(arg tf_z)" />
+        <param name="tf_roll" type="double" value="$(arg tf_roll)"/>
+        <param name="tf_pitch" type="double" value="$(arg tf_pitch)" />
+        <param name="tf_yaw" type="double" value="$(arg tf_yaw)"/>
+        <param name="topic_compensated_pointcloud" value="$(arg topic_pointcloud)" />
+        <param name="datapath" value="$(arg ndt_tku_data_path)" />
+    </node> -->
+    
+    <node pkg="localization" type="localization_node" name="localization_node" output="log" >
+    </node>
+<!-- 
+    <node pkg="velodyne_compensation" type="velodyne_compensation_node" name="velodyne_compensation" output="log" >
+        <param name="topic_compensated_pointcloud" value="$(arg topic_compensated_pointcloud)"/>
+        <param name="topic_pointcloud" value="$(arg topic_pointcloud)"/>
+        <param name="topic_transform" value="$(arg topic_transform)"/>
+        <param name="queue_size" value="100"/>
+    </node> -->
+</launch>
